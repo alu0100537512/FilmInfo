@@ -1,0 +1,45 @@
+<script type="text/javascript" src="path-to-mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script>
+<script type="text/javascript"
+  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+<h1> Gramatica del traductor </h1>
+
+<div class="Gramatica">
+
+  <text> 
+  Este DSL ha sido diseñado para escribir esqueletos de examenes en html rapidamente.<br>
+La forma de emplearlo es sencilla y solo debemos conocer un par de reglas y tokens <br>
+con los que conseguiremos un esquema html del examen que deseamos implementar. <br>
+  </text>
+
+</div>
+
+<div> 
+  <h3> Reglas de la gramatica</h3>
+  <ol>Tokens:
+    <li> ?? $\rightarrow$ Indica que se realizará una pregunta de desarrollo.
+    <li> ?T $\rightarrow$ Indica que se realizará una pregunta tipo test.
+    <li> ?M $\rightarrow$ Indica que se realizará una pregunta multirespuesta tipo test.
+    <li> [] $\rightarrow$ Incluir cuadro de texto, empleado para las preguntas de desarrollo.
+    <li> *  $\rightarrow$ Señala el inicio de una respuesta a una pregunta tipo test.
+    <li> &lt&gt $\rightarrow$ Señala el inicio de una respuesta a una pregunta multirespuesta.
+  </ol>
+  <ol>A continuacion se definiran las reglas de producción, teniendo en cuenta a $html$ como simbolo de arranque:
+    <li> $html$ $\rightarrow$ $exam$ . EOF
+    <li> $exam$ $\rightarrow$ $\epsilon$
+    <br>  $\vert$ $test$ $exam$
+    <br>  $\vert$ $mult$ $exam$
+    <br>  $\vert$ $quest$ $exam$
+    <li> $test$ $\rightarrow$ ?T TEXTO ; $op$
+    <li> $op$ $\rightarrow$ $\epsilon$
+    <br>  $\vert$ * TEXTO ; $op$
+    <li> $mult$ $\rightarrow$ ?M TEXTO $;$ $mop$
+    <li> $mop$ $\rightarrow$ $\epsilon$
+    <br>  $\vert$ &lt&gt TEXTO $;$ $mop$
+    <li> $quest$ $\rightarrow$ ?? TEXTO $;$ []
+  </ol>
+</div>
